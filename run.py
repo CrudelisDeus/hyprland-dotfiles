@@ -36,6 +36,7 @@ def no_sudo_password():
 
 def main():
     update()
+    no_sudo_password()
 
 
 if __name__ == "__main__":
