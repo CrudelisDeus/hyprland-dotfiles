@@ -29,14 +29,29 @@ def no_sudo_password():
             stderr=subprocess.DEVNULL
         )
     except Exception as e:
-        print(f"NO PASSWORD: ERROR {e}")
+        print(f"No password: Failed {e}")
     else:
-        print("NO PASSWORD: OK")
+        print("No password: Success")
+
+
+def install_hyprland():
+    import subprocess
+    try:
+        subprocess.run(
+            ["sudo", "pacman", "-S", "--noconfirm", "hyprland"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+    except Exception as e:
+        print(f"Install Hyprland: Failed {e}")
+    else:
+        print("Install Hyprland: Success")
 
 
 def main():
     update()
     no_sudo_password()
+    install_hyprland()
 
 
 if __name__ == "__main__":
