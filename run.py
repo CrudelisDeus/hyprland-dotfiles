@@ -48,10 +48,34 @@ def install_hyprland():
         print("Install Hyprland: Success")
 
 
+def install_fonts():
+    import subprocess
+    fonts = [
+        "noto-fonts",
+        "noto-fonts-emoji",
+        "ttf-dejavu",
+        "ttf-liberation",
+        "ttf-nerd-fonts-symbols",
+        "ttf-nerd-fonts-symbols-mono",
+        "ttf-font-awesome"
+    ]
+    try:
+        subprocess.run(
+            ["sudo", "pacman", "-S", "--noconfirm"] + fonts,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+    except Exception as e:
+        print(f"Install Fonts: Failed {e}")
+    else:
+        print("Install Fonts: Success")
+
+
 def main():
     update()
     no_sudo_password()
     install_hyprland()
+    install_fonts()
 
 
 if __name__ == "__main__":
