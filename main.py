@@ -10,7 +10,7 @@ class InstallHyprland:
         """Saves the log content to a file"""
         import os
         base_dir = os.path.dirname(os.path.abspath(__file__))
-        log_dir = os.path.join(base_dir, "log")
+        log_dir = os.path.join(base_dir, "logs")
         os.makedirs(log_dir, exist_ok=True)
         full_log_path = os.path.join(log_dir, self.log_file_name)
         error_log_path = os.path.join(log_dir, self.error_log_file_name)
@@ -117,6 +117,7 @@ class InstallHyprland:
                 self.log_message(out, (result.stderr).strip(), error=True)
 
     def install_fonts(self):
+        """Installs necessary fonts using pacman"""
         import subprocess
         fonts = [
             "noto-fonts",
@@ -127,26 +128,25 @@ class InstallHyprland:
             "ttf-nerd-fonts-symbols-mono",
             "ttf-font-awesome"
         ]
-        for font in fonts:
-            print(f"Font {font}: ", end="", flush=True)
-            try:
-                result = subprocess.run(
-                    ["sudo", "pacman", "-S", "--noconfirm", font],
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
-                    text=True,
-                    check=False
-                )
-            except Exception as e:
-                out = "Exception"
-                self.log_message(out, (e).strip())
+
+        try:
+            result = subprocess.run(
+                ["sudo", "pacman", "-S", "--noconfirm"] + fonts,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False
+            )
+        except Exception as e:
+            out = "Exception"
+            self.log_message(out, (e).strip())
+        else:
+            if result.returncode == 0:
+                out = "Success"
+                self.log_message(out, (result.stdout).strip())
             else:
-                if result.returncode == 0:
-                    out = "Success"
-                    self.log_message(out, (result.stdout).strip())
-                else:
-                    out = "Failed"
-                    self.log_message(out, (result.stderr).strip(), error=True)
+                out = "Failed"
+                self.log_message(out, (result.stderr).strip(), error=True)
 
     def main(self):
         """Main function to run the installer"""
