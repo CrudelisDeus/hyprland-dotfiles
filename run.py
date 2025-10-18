@@ -3,6 +3,22 @@ class InstallHyprland:
         # Initialize internal logs
         self.log = ''
         self.error = ''
+        self.log_file_name = 'full_log.txt'
+        self.error_log_file_name = 'error_log.txt'
+
+    def _paste_log_to_file(self, content: str, error: bool = False) -> None:
+        """Saves the log content to a file"""
+        import os
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        self.log_dir = os.path.join(base_dir, "log")
+        os.makedirs(self.log_dir, exist_ok=True)
+
+        with open(self.log_file_name, "a", encoding="utf-8") as f:
+            f.write(content + "\n")
+
+        if error:
+            with open(self.error_log_file_name, "a", encoding="utf-8") as f:
+                f.write(content + "\n")
 
     def log_message(
             self, message: str, result: str, error: bool = False
@@ -44,5 +60,4 @@ class InstallHyprland:
 
 if __name__ == "__main__":
     installer = InstallHyprland()
-    installer.update()
     installer.update()
