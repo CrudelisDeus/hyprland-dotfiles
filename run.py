@@ -15,7 +15,7 @@ class InstallHyprland:
             self.error += message + '\n'
             self.error += result + '\n'
 
-        print(self.log, end="", flush=True)
+        print(message)
 
     def update(self):
         """Updates the system using pacman"""
