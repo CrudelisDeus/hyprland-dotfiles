@@ -15,12 +15,11 @@ class InstallHyprland:
             self.error += message + '\n'
             self.error += result + '\n'
 
-        print(self.log)
-        print("-----")
-        print(self.error)
+        print(self.log, end="", flush=True)
 
     def update(self):
         """Updates the system using pacman"""
+        print("Update: ", end="", flush=True)
         try:
             import subprocess
             result = subprocess.run(
@@ -36,15 +35,14 @@ class InstallHyprland:
             self.log_message(out, str(e), error=True)
         else:
             if result.returncode == 0:
-                out = "Update: Success"
-                print(out)
+                out = "Success"
                 self.log_message(out, (result.stdout).strip())
             else:
-                out = "Update: Failed"
-                print(out)
+                out = "Failed"
                 self.log_message(out, (result.stderr).strip(), error=True)
 
 
 if __name__ == "__main__":
     installer = InstallHyprland()
+    installer.update()
     installer.update()
