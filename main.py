@@ -118,6 +118,7 @@ class InstallHyprland:
 
     def install_fonts(self):
         """Installs necessary fonts using pacman"""
+        print("Fonts: ", end="", flush=True)
         import subprocess
         fonts = [
             "noto-fonts",
