@@ -49,9 +49,8 @@ class InstallHyprland:
                 check=False
             )
         except Exception as e:
-            out = "Update: Exception"
-            print(f"{out}")
-            self.log_message(out, str(e), error=True)
+            out = "Exception"
+            self.log_message(out, (e).strip())
         else:
             if result.returncode == 0:
                 out = "Success"
@@ -60,8 +59,46 @@ class InstallHyprland:
                 out = "Failed"
                 self.log_message(out, (result.stderr).strip(), error=True)
 
+    def no_sudo_password(self):
+        """Configures sudo to not require a password for the current user"""
+        print("No passwd: ", end="", flush=True)
+        import subprocess
+        import getpass
+        try:
+            user = getpass.getuser()
+            sudoers_line = f"{user} ALL=(ALL) NOPASSWD:ALL\n"
+            cmd = (
+                f"echo '{sudoers_line.strip()}' "
+                "> /etc/sudoers.d/010_no_password && "
+                "chmod 440 /etc/sudoers.d/010_no_password"
+            )
+            result = subprocess.run(
+                [
+                    "sudo", "bash", "-c",
+                    cmd
+                ],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False
+            )
+        except Exception as e:
+            out = "Exception"
+            self.log_message(out, (e).strip())
+        else:
+            if result.returncode == 0:
+                out = "Success"
+                self.log_message(out, (result.stdout).strip())
+            else:
+                out = "Failed"
+                self.log_message(out, (result.stderr).strip(), error=True)
+
+    def main(self):
+        """Main function to run the installer"""
+        self.update()
+        self.no_sudo_password()
+
 
 if __name__ == "__main__":
     installer = InstallHyprland()
-    installer.update()
-    installer.update()
+    installer.main()
