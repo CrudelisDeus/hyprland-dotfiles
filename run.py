@@ -20,10 +20,11 @@ class InstallHyprland:
         print(self.error)
 
     def update(self):
+        """Updates the system using pacman"""
         try:
             import subprocess
             result = subprocess.run(
-                ["sudo", "pacman", "-Syu"],
+                ["sudo", "pacman", "-Syu", "--noconfirm"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
