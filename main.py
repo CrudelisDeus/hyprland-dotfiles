@@ -93,10 +93,67 @@ class InstallHyprland:
                 out = "Failed"
                 self.log_message(out, (result.stderr).strip(), error=True)
 
+    def install_hyprland(self):
+        """Installs Hyprland using pacman"""
+        print("Hyperland: ", end="", flush=True)
+        import subprocess
+        try:
+            result = subprocess.run(
+                ["sudo", "pacman", "-S", "--noconfirm", "hyprland"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False
+            )
+        except Exception as e:
+            out = "Exception"
+            self.log_message(out, (e).strip())
+        else:
+            if result.returncode == 0:
+                out = "Success"
+                self.log_message(out, (result.stdout).strip())
+            else:
+                out = "Failed"
+                self.log_message(out, (result.stderr).strip(), error=True)
+
+    def install_fonts(self):
+        import subprocess
+        fonts = [
+            "noto-fonts",
+            "noto-fonts-emoji",
+            "ttf-dejavu",
+            "ttf-liberation",
+            "ttf-nerd-fonts-symbols",
+            "ttf-nerd-fonts-symbols-mono",
+            "ttf-font-awesome"
+        ]
+        for font in fonts:
+            print(f"Font {font}: ", end="", flush=True)
+            try:
+                result = subprocess.run(
+                    ["sudo", "pacman", "-S", "--noconfirm", font],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                    check=False
+                )
+            except Exception as e:
+                out = "Exception"
+                self.log_message(out, (e).strip())
+            else:
+                if result.returncode == 0:
+                    out = "Success"
+                    self.log_message(out, (result.stdout).strip())
+                else:
+                    out = "Failed"
+                    self.log_message(out, (result.stderr).strip(), error=True)
+
     def main(self):
         """Main function to run the installer"""
         self.update()
         self.no_sudo_password()
+        self.install_hyprland()
+        self.install_fonts()
 
 
 if __name__ == "__main__":
