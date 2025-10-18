@@ -24,8 +24,8 @@ class InstallHyprland:
             import subprocess
             result = subprocess.run(
                 ["sudo", "pacman", "-Syu"],
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 text=True,
             )
         except Exception:
@@ -53,9 +53,8 @@ class InstallHyprland:
                     "sudo", "bash", "-c",
                     cmd
                 ],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL
             )
         except Exception as e:
             print(f"No password: Failed {e}")
