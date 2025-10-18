@@ -10,14 +10,16 @@ class InstallHyprland:
         """Saves the log content to a file"""
         import os
         base_dir = os.path.dirname(os.path.abspath(__file__))
-        self.log_dir = os.path.join(base_dir, "log")
-        os.makedirs(self.log_dir, exist_ok=True)
+        log_dir = os.path.join(base_dir, "log")
+        os.makedirs(log_dir, exist_ok=True)
+        full_log_path = os.path.join(log_dir, self.log_file_name)
+        error_log_path = os.path.join(log_dir, self.error_log_file_name)
 
-        with open(self.log_file_name, "a", encoding="utf-8") as f:
+        with open(full_log_path, "a", encoding="utf-8") as f:
             f.write(content + "\n")
 
         if error:
-            with open(self.error_log_file_name, "a", encoding="utf-8") as f:
+            with open(error_log_path, "a", encoding="utf-8") as f:
                 f.write(content + "\n")
 
     def log_message(
@@ -25,11 +27,12 @@ class InstallHyprland:
             ) -> None:
         """Logs a message to the internal log.
         If error is True, also logs to error log."""
-        self.log += message + '\n'
-        self.log += result + '\n'
+        entry = f"{message}\n{(result or '')}\n"
+        self.log += entry
+        self._paste_log_to_file(entry)
         if error:
-            self.error += message + '\n'
-            self.error += result + '\n'
+            self.error += entry
+            self._paste_log_to_file(entry, error=True)
 
         print(message)
 
@@ -60,4 +63,5 @@ class InstallHyprland:
 
 if __name__ == "__main__":
     installer = InstallHyprland()
+    installer.update()
     installer.update()
