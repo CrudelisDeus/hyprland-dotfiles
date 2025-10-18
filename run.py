@@ -1,5 +1,6 @@
 class InstallHyprland:
     def __init__(self):
+        # Initialize internal logs
         self.log = ''
         self.error = ''
 
@@ -52,8 +53,9 @@ class InstallHyprland:
                     "sudo", "bash", "-c",
                     cmd
                 ],
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
             )
         except Exception as e:
             print(f"No password: Failed {e}")
@@ -103,4 +105,5 @@ class InstallHyprland:
 
 
 if __name__ == "__main__":
-    InstallHyprland().main()
+    installer = InstallHyprland()
+    installer.main()
