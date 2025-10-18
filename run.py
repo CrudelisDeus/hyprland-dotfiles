@@ -15,11 +15,11 @@ class InstallHyprland:
         full_log_path = os.path.join(log_dir, self.log_file_name)
         error_log_path = os.path.join(log_dir, self.error_log_file_name)
 
-        with open(full_log_path, "a", encoding="utf-8") as f:
-            f.write(content + "\n")
-
         if error:
             with open(error_log_path, "a", encoding="utf-8") as f:
+                f.write(content + "\n")
+        else:
+            with open(full_log_path, "a", encoding="utf-8") as f:
                 f.write(content + "\n")
 
     def log_message(
