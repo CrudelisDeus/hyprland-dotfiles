@@ -30,28 +30,36 @@ class InstallHyprland:
 
     def paste_config(self) -> None:
         """Paste the configuration files"""
-        import os
-        from datetime import datetime
-        import shutil
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        date_str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        old_config = os.path.join(base_dir, f"old_configs/{date_str}")
-        os.makedirs(old_config, exist_ok=True)
+        print("Config paste: ", end="", flush=True)
+        try:
+            import os
+            from datetime import datetime
+            import shutil
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+            date_str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            old_config = os.path.join(base_dir, f"old_configs/{date_str}")
+            os.makedirs(old_config, exist_ok=True)
 
-        # backup old config
-        home_dir = os.path.expanduser("~")
-        config_dir = os.path.join(home_dir, ".config")
-        if os.path.exists(config_dir):
+            # backup old config
+            home_dir = os.path.expanduser("~")
+            config_dir = os.path.join(home_dir, ".config")
+            if os.path.exists(config_dir):
+                shutil.copytree(
+                    config_dir, os.path.join(
+                        old_config, ".config"), dirs_exist_ok=True)
+            else:
+                os.makedirs(config_dir, exist_ok=True)
+
+            # paste config
+            source_config = os.path.join(base_dir, "config")
             shutil.copytree(
-                config_dir, os.path.join(
-                    old_config, ".config"), dirs_exist_ok=True)
+                source_config, config_dir, dirs_exist_ok=True)
+        except Exception as e:
+            out = "Exception"
+            self.log_message(out, (e).strip())
         else:
-            os.makedirs(config_dir, exist_ok=True)
-
-        # paste config
-        source_config = os.path.join(base_dir, "config")
-        shutil.copytree(
-            source_config, config_dir, dirs_exist_ok=True)
+            out = "Success"
+            self.log_message(out, "Configuration files pasted successfully.")
 
     def install_terminal(self) -> None:
         """Installs the terminal emulator"""
