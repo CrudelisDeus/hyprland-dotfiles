@@ -192,6 +192,7 @@ class InstallHyprland:
         self.no_sudo_password()
         self.install_hyprland()
         self.install_fonts()
+        self.install_terminal()
         self.paste_config()
 
 
