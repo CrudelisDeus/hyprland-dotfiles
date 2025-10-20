@@ -141,7 +141,15 @@ class InstallHyprland:
             "ttf-liberation",
             "ttf-nerd-fonts-symbols",
             "ttf-nerd-fonts-symbols-mono",
-            "ttf-font-awesome"
+            "ttf-font-awesome",
+            # -----------------------
+            # old pkg (migrate bspwm)
+            # -----------------------
+            "ttf-inconsolata",
+            "ttf-jetbrains-mono",
+            "ttf-jetbrains-mono-nerd",
+            "ttf-terminus-nerd",
+            "ttf-ubuntu-mono-nerd"
         ]
         self._install_pkg(fonts)
 
