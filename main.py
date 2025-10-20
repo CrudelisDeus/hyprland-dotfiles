@@ -6,7 +6,7 @@ class InstallHyprland:
         self.log_file_name = 'full_log.txt'
         self.error_log_file_name = 'error_log.txt'
 
-    def _install_pkg(self, packages_name: list):
+    def _install_pkg(self, packages_name: list) -> None:
         """Installs a package using pacman"""
         import subprocess
         try:
@@ -28,11 +28,32 @@ class InstallHyprland:
                 out = "Failed"
                 self.log_message(out, (result.stderr).strip(), error=True)
 
-    def paste_config(self):
+    def paste_config(self) -> None:
         """Paste the configuration files"""
-        pass
+        import os
+        from datetime import datetime
+        import shutil
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        date_str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        old_config = os.path.join(base_dir, f"old_configs/{date_str}")
+        os.makedirs(old_config, exist_ok=True)
 
-    def install_terminal(self):
+        # backup old config
+        home_dir = os.path.expanduser("~")
+        config_dir = os.path.join(home_dir, ".config")
+        if os.path.exists(config_dir):
+            shutil.copytree(
+                config_dir, os.path.join(
+                    old_config, ".config"), dirs_exist_ok=True)
+        else:
+            os.makedirs(config_dir, exist_ok=True)
+
+        # paste config
+        source_config = os.path.join(base_dir, "config")
+        shutil.copytree(
+            source_config, config_dir, dirs_exist_ok=True)
+
+    def install_terminal(self) -> None:
         """Installs the terminal emulator"""
         print("Terminal: ", end="", flush=True)
         packages = [
@@ -163,6 +184,7 @@ class InstallHyprland:
         self.no_sudo_password()
         self.install_hyprland()
         self.install_fonts()
+        self.paste_config()
 
 
 if __name__ == "__main__":
