@@ -34,7 +34,11 @@ class InstallHyprland:
 
     def install_terminal(self):
         """Installs the terminal emulator"""
-        pass
+        print("Terminal: ", end="", flush=True)
+        packages = [
+            "alacritty",
+        ]
+        self._install_pkg(packages)
 
     def _paste_log_to_file(self, content: str, error: bool = False) -> None:
         """Saves the log content to a file"""
