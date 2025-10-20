@@ -6,6 +6,36 @@ class InstallHyprland:
         self.log_file_name = 'full_log.txt'
         self.error_log_file_name = 'error_log.txt'
 
+    def _install_pkg(self, packages_name: list):
+        """Installs a package using pacman"""
+        import subprocess
+        try:
+            result = subprocess.run(
+                ["sudo", "pacman", "-S", "--noconfirm"] + packages_name,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False
+            )
+        except Exception as e:
+            out = "Exception"
+            self.log_message(out, (e).strip())
+        else:
+            if result.returncode == 0:
+                out = "Success"
+                self.log_message(out, (result.stdout).strip())
+            else:
+                out = "Failed"
+                self.log_message(out, (result.stderr).strip(), error=True)
+
+    def paste_config(self):
+        """Paste the configuration files"""
+        pass
+
+    def install_terminal(self):
+        """Installs the terminal emulator"""
+        pass
+
     def _paste_log_to_file(self, content: str, error: bool = False) -> None:
         """Saves the log content to a file"""
         import os
@@ -96,30 +126,14 @@ class InstallHyprland:
     def install_hyprland(self):
         """Installs Hyprland using pacman"""
         print("Hyperland: ", end="", flush=True)
-        import subprocess
-        try:
-            result = subprocess.run(
-                ["sudo", "pacman", "-S", "--noconfirm", "hyprland"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                check=False
-            )
-        except Exception as e:
-            out = "Exception"
-            self.log_message(out, (e).strip())
-        else:
-            if result.returncode == 0:
-                out = "Success"
-                self.log_message(out, (result.stdout).strip())
-            else:
-                out = "Failed"
-                self.log_message(out, (result.stderr).strip(), error=True)
+        packages = [
+            "hyprland",
+        ]
+        self._install_pkg(packages)
 
     def install_fonts(self):
         """Installs necessary fonts using pacman"""
         print("Fonts: ", end="", flush=True)
-        import subprocess
         fonts = [
             "noto-fonts",
             "noto-fonts-emoji",
@@ -129,25 +143,7 @@ class InstallHyprland:
             "ttf-nerd-fonts-symbols-mono",
             "ttf-font-awesome"
         ]
-
-        try:
-            result = subprocess.run(
-                ["sudo", "pacman", "-S", "--noconfirm"] + fonts,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                check=False
-            )
-        except Exception as e:
-            out = "Exception"
-            self.log_message(out, (e).strip())
-        else:
-            if result.returncode == 0:
-                out = "Success"
-                self.log_message(out, (result.stdout).strip())
-            else:
-                out = "Failed"
-                self.log_message(out, (result.stderr).strip(), error=True)
+        self._install_pkg(fonts)
 
     def main(self):
         """Main function to run the installer"""
