@@ -5,7 +5,7 @@
 
 [general]
 import = [
-"themes/emilia.toml",
+"themes/deus_default.toml",
 "fonts.toml",
 ]
 
