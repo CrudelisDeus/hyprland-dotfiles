@@ -36,7 +36,8 @@ class InstallHyprland:
             "zsh",
             "zsh-autosuggestions",
             "zsh-syntax-highlighting",
-            "zsh-history-substring-search"
+            "zsh-history-substring-search",
+            "fzf"
         ]
         self._install_pkg(packages)
 
