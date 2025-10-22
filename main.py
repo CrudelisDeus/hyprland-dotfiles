@@ -38,7 +38,7 @@ class InstallHyprland:
             "zsh-history-substring-search"
         ]
         self._install_pkg(packages)
-    
+
     def default_shell_zsh(self) -> None:
         """Sets Zsh as the default shell for the current user"""
         print("Default Shell: ", end="", flush=True)
@@ -47,7 +47,7 @@ class InstallHyprland:
         try:
             user = getpass.getuser()
             result = subprocess.run(
-                ["chsh", "-s", "/bin/zsh", user],
+                ["sudo", "chsh", "-s", "/bin/zsh", user],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
