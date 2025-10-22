@@ -27,6 +27,7 @@ class InstallHyprland:
             else:
                 out = "Failed"
                 self.log_message(out, (result.stderr).strip(), error=True)
+
     # zsh
     def install_zsh(self) -> None:
         """Installs Zsh shell"""
@@ -39,12 +40,14 @@ class InstallHyprland:
         ]
         self._install_pkg(packages)
 
-    def default_shell_zsh(self) -> None:
+    def config_shell_zsh(self) -> None:
         """Sets Zsh as the default shell for the current user"""
-        print("Default Shell: ", end="", flush=True)
+        print("Config Shell: ", end="", flush=True)
         import subprocess
         import getpass
+        import os
         try:
+            # default config
             user = getpass.getuser()
             result = subprocess.run(
                 ["sudo", "chsh", "-s", "/bin/zsh", user],
@@ -53,6 +56,11 @@ class InstallHyprland:
                 text=True,
                 check=False
             )
+            # ensure zshrc exists
+            zrc = os.path.expanduser("~/.zshrc")
+            if not os.path.exists(zrc):
+                with open(zrc, "w", encoding="utf-8") as f:
+                    f.write("# zsh\n")
         except Exception as e:
             out = "Exception"
             self.log_message(out, (e).strip())
@@ -231,7 +239,7 @@ class InstallHyprland:
         self.install_terminal()
 
         self.install_zsh()
-        self.default_shell_zsh()
+        self.config_shell_zsh()
 
         self.paste_config()
 
