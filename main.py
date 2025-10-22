@@ -28,6 +28,17 @@ class InstallHyprland:
                 out = "Failed"
                 self.log_message(out, (result.stderr).strip(), error=True)
 
+    def install_zsh(self) -> None:
+        """Installs Zsh shell"""
+        print("Zsh: ", end="", flush=True)
+        packages = [
+            "zsh",
+            "zsh-autosuggestions",
+            "zsh-syntax-highlighting",
+            "zsh-history-substring-search"
+        ]
+        self._install_pkg(packages)
+
     def paste_config(self) -> None:
         """Paste the configuration files"""
         print("Config paste: ", end="", flush=True)
@@ -193,6 +204,7 @@ class InstallHyprland:
         self.install_hyprland()
         self.install_fonts()
         self.install_terminal()
+        self.install_zsh()
         self.paste_config()
 
 
