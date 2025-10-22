@@ -46,6 +46,7 @@ class InstallHyprland:
         import subprocess
         import getpass
         import os
+        import shutil
         try:
             # default config
             user = getpass.getuser()
@@ -57,8 +58,13 @@ class InstallHyprland:
                 check=False
             )
             # ensure zshrc exists
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+            src_zrc = os.path.join(base_dir, "config", "zsh", ".zshrc")    
             zrc = os.path.expanduser("~/.zshrc")
-            if not os.path.exists(zrc):
+            os.makedirs(os.path.dirname(zrc), exist_ok=True)
+            if os.path.exists(src_zrc):
+                shutil.copy2(src_zrc, zrc)
+            else:
                 with open(zrc, "w", encoding="utf-8") as f:
                     f.write("# zsh\n")
         except Exception as e:
@@ -95,9 +101,15 @@ class InstallHyprland:
                 os.makedirs(config_dir, exist_ok=True)
 
             # paste config
+            exclude = ["zsh"]
+
             source_config = os.path.join(base_dir, "config")
             shutil.copytree(
-                source_config, config_dir, dirs_exist_ok=True)
+                source_config,
+                config_dir,
+                dirs_exist_ok=True,
+                ignore=shutil.ignore_patterns(*exclude)
+            )
         except Exception as e:
             out = "Exception"
             self.log_message(out, (e).strip())
