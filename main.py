@@ -27,7 +27,7 @@ class InstallHyprland:
             else:
                 out = "Failed"
                 self.log_message(out, (result.stderr).strip(), error=True)
-
+    # zsh
     def install_zsh(self) -> None:
         """Installs Zsh shell"""
         print("Zsh: ", end="", flush=True)
@@ -38,6 +38,31 @@ class InstallHyprland:
             "zsh-history-substring-search"
         ]
         self._install_pkg(packages)
+    
+    def default_shell_zsh(self) -> None:
+        """Sets Zsh as the default shell for the current user"""
+        print("Default Shell: ", end="", flush=True)
+        import subprocess
+        import getpass
+        try:
+            user = getpass.getuser()
+            result = subprocess.run(
+                ["chsh", "-s", "/bin/zsh", user],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False
+            )
+        except Exception as e:
+            out = "Exception"
+            self.log_message(out, (e).strip())
+        else:
+            if result.returncode == 0:
+                out = "Success"
+                self.log_message(out, (result.stdout).strip())
+            else:
+                out = "Failed"
+                self.log_message(out, (result.stderr).strip(), error=True)
 
     def paste_config(self) -> None:
         """Paste the configuration files"""
@@ -204,7 +229,10 @@ class InstallHyprland:
         self.install_hyprland()
         self.install_fonts()
         self.install_terminal()
+
         self.install_zsh()
+        self.default_shell_zsh()
+
         self.paste_config()
 
 
