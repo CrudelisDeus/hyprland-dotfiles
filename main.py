@@ -38,7 +38,6 @@ class InstallHyprland:
             "zsh-syntax-highlighting",
             "zsh-history-substring-search",
             "fzf",
-            'zsh-plugin-fzf-tab'
         ]
         self._install_pkg(packages)
 
