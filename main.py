@@ -34,6 +34,25 @@ class InstallHyprland:
         print("Chaotic AUR: ", end="", flush=True)
         try:
             import subprocess
+            # 0) import keys
+            subprocess.run(
+                [
+                    "sudo", "pacman-key", "--recv-key", "3056513887B78AEB",
+                    "--keyserver", "keyserver.ubuntu.com"
+                ],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False
+            )
+
+            subprocess.run(
+                ["sudo", "pacman-key", "--lsign-key", "3056513887B78AEB"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE, text=True, check=False
+            )
+
+            # 1) keyring + mirrorlist
             result = subprocess.run(
                 [
                     "sudo", "pacman", "-U", "--noconfirm",
@@ -43,27 +62,52 @@ class InstallHyprland:
                     "chaotic-mirrorlist.pkg.tar.zst",
                 ],
                 stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                check=False
+                stderr=subprocess.PIPE, text=True, check=False
             )
+
+            # 2) added pacman conf
             if result.returncode == 0:
-                # add repo to pacman.conf
-                with open("/etc/pacman.conf", "a", encoding="utf-8") as f:
-                    f.write(
-                        "\n[chaotic-aur]\n"
-                        "Include = /etc/pacman.d/chaotic-aur-mirrorlist\n"
-                    )
-        except Exception as e:
-            out = "Exception"
-            self.log_message(out, (e).strip())
-        else:
-            if result.returncode == 0:
-                out = "Success"
-                self.log_message(out, (result.stdout).strip())
+                add_cmd = (
+                    r"grep -q '^\[chaotic-aur\]' /etc/pacman.conf || "
+                    r"echo -e '\n[chaotic-aur]\n"
+                    r"Include = /etc/pacman.d/chaotic-mirrorlist' "
+                    r"| sudo tee -a /etc/pacman.conf >/dev/null"
+                )
+
+                add = subprocess.run(
+                    ["bash", "-c", add_cmd],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE, text=True, check=False
+                )
+
+                # 3) update db
+                refresh = subprocess.run(
+                    ["sudo", "pacman", "-Syy"],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE, text=True, check=False
+                )
+
+                if refresh.returncode == 0:
+                    out = "Success"
+                    self.log_message(out, ((result.stdout or "") + (
+                        add.stdout or "") + (refresh.stdout or "")).strip())
+                else:
+                    out = "Failed"
+                    self.log_message(
+                        out,
+                        ((result.stderr) + (add.stderr) + (
+                            refresh.stderr)).strip(), error=True)
             else:
                 out = "Failed"
-                self.log_message(out, (result.stderr).strip(), error=True)
+                self.log_message(
+                    out,
+                    ((result.stderr or "") + (
+                        add.stderr or "") + (refresh.stderr or "")).strip(),
+                    error=True
+                )
+        except Exception as e:
+            out = "Exception"
+            self.log_message(out, str(e).strip())
 
     # zsh
     def install_zsh(self) -> None:
