@@ -70,4 +70,4 @@ function dir_icon {
   fi
 }
 
-PS1='%F{blue}%n%f %F{cyan}$(dir_icon)%f %F{red}%~%f ${vcs_info_msg_0_} %(?.%F{green}>>%f.%F{red}>>%f) '
+PS1='%F{green}%n%f %F{blue}%~%f ${vcs_info_msg_0_} %(?.%F{green}$%f.%F{red}$%f) '

@@ -59,7 +59,7 @@ class InstallHyprland:
             )
             # ensure zshrc exists
             base_dir = os.path.dirname(os.path.abspath(__file__))
-            src_zrc = os.path.join(base_dir, "config", "zsh", ".zshrc")    
+            src_zrc = os.path.join(base_dir, "config", "zsh", ".zshrc")
             zrc = os.path.expanduser("~/.zshrc")
             os.makedirs(os.path.dirname(zrc), exist_ok=True)
             if os.path.exists(src_zrc):
