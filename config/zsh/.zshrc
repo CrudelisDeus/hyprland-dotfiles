@@ -61,17 +61,6 @@ bindkey "^[[F" end-of-line
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
 
-tab-or-complete() {
-  if [[ -z ${BUFFER//[[:space:]]/} ]]; then
-    return 0
-  fi
-  zle expand-or-complete
-}
-zle -N tab-or-complete
-
-bindkey -M emacs '^I' tab-or-complete
-bindkey -M viins '^I' tab-or-complete
-
 # ------------------------------------#
 # the prompt                          #
 # ------------------------------------#
