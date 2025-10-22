@@ -61,13 +61,16 @@ bindkey "^[[F" end-of-line
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
 
-expand-or-complete-with-dots() {
-  echo -n "\e[31m…\e[0m"
+tab-or-complete() {
+  if [[ -z ${BUFFER//[[:space:]]/} ]]; then
+    return 0
+  fi
   zle expand-or-complete
-  zle redisplay
 }
-zle -N expand-or-complete-with-dots
-bindkey "^I" expand-or-complete-with-dots
+zle -N tab-or-complete
+
+bindkey -M emacs '^I' tab-or-complete
+bindkey -M viins '^I' tab-or-complete
 
 # ------------------------------------#
 # the prompt                          #
