@@ -31,7 +31,7 @@ class InstallHyprland:
     # added chaotic-aur
     def install_chaotic_aur(self) -> None:
         """Installs Chaotic AUR repository"""
-        print("Chaotic AUR: ", end="", flush=True)
+        print("Chaotic aur: ", end="", flush=True)
         try:
             import subprocess
             # 0) import keys
@@ -125,7 +125,7 @@ class InstallHyprland:
 
     def config_shell_zsh(self) -> None:
         """Sets Zsh as the default shell for the current user"""
-        print("Config Shell: ", end="", flush=True)
+        print("Config shell: ", end="", flush=True)
         import subprocess
         import getpass
         import os

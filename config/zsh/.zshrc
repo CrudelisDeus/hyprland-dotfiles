@@ -13,7 +13,9 @@
 # ------------------------------------#
 # load engine                         #
 # ------------------------------------#
-
+autoload -Uz compinit
+zmodload zsh/complist
+compinit
 autoload -Uz add-zsh-hook
 autoload -Uz vcs_info
 precmd () { vcs_info }
