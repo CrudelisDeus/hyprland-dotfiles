@@ -28,6 +28,43 @@ class InstallHyprland:
                 out = "Failed"
                 self.log_message(out, (result.stderr).strip(), error=True)
 
+    # added chaotic-aur
+    def install_chaotic_aur(self) -> None:
+        """Installs Chaotic AUR repository"""
+        print("Chaotic AUR: ", end="", flush=True)
+        try:
+            import subprocess
+            result = subprocess.run(
+                [
+                    "sudo", "pacman", "-U", "--noconfirm",
+                    "https://cdn-mirror.chaotic.cx/chaotic-aur/"
+                    "chaotic-keyring.pkg.tar.zst",
+                    "https://cdn-mirror.chaotic.cx/chaotic-aur/"
+                    "chaotic-mirrorlist.pkg.tar.zst",
+                ],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False
+            )
+            if result.returncode == 0:
+                # add repo to pacman.conf
+                with open("/etc/pacman.conf", "a", encoding="utf-8") as f:
+                    f.write(
+                        "\n[chaotic-aur]\n"
+                        "Include = /etc/pacman.d/chaotic-aur-mirrorlist\n"
+                    )
+        except Exception as e:
+            out = "Exception"
+            self.log_message(out, (e).strip())
+        else:
+            if result.returncode == 0:
+                out = "Success"
+                self.log_message(out, (result.stdout).strip())
+            else:
+                out = "Failed"
+                self.log_message(out, (result.stderr).strip(), error=True)
+
     # zsh
     def install_zsh(self) -> None:
         """Installs Zsh shell"""
@@ -38,6 +75,7 @@ class InstallHyprland:
             "zsh-syntax-highlighting",
             "zsh-history-substring-search",
             "fzf",
+            "fzf-tab-git",
         ]
         self._install_pkg(packages)
 
