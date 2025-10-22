@@ -289,6 +289,8 @@ class InstallHyprland:
         self.install_fonts()
         self.install_terminal()
 
+        self.install_chaotic_aur()
+
         self.install_zsh()
         self.config_shell_zsh()
 
