@@ -236,7 +236,25 @@ class InstallHyprland:
             self.error += entry
             self._paste_log_to_file(entry, error=True)
 
-        print(message)
+        import sys
+
+        RED = "\033[91m"
+        GREEN = "\033[92m"
+        YEL = "\033[93m"
+        RESET = "\033[0m"
+
+        if sys.stdout.isatty():
+            if error or message == "Failed":
+                color = RED
+            elif message == "Success":
+                color = GREEN
+            elif message == "Exception":
+                color = YEL
+            else:
+                color = RESET
+            print(f"{color}{message}{RESET}")
+        else:
+            print(message)
 
     def update(self):
         """Updates the system using pacman"""
