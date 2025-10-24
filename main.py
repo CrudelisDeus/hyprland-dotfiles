@@ -120,7 +120,8 @@ class InstallHyprland:
             "zsh-history-substring-search",
             "fzf",
             "fzf-tab-git",
-            "eza"
+            "eza",
+            "bat"
         ]
         self._install_pkg(packages)
 
