@@ -28,6 +28,15 @@ class InstallHyprland:
                 out = "Failed"
                 self.log_message(out, (result.stderr).strip(), error=True)
 
+    # install nvim
+    def install_nvim(self) -> None:
+        """Installs Neovim"""
+        print("Neovim: ", end="", flush=True)
+        packages = [
+            "neovim",
+        ]
+        self._install_pkg(packages)
+
     # added chaotic-aur
     def install_chaotic_aur(self) -> None:
         """Installs Chaotic AUR repository"""
@@ -352,6 +361,7 @@ class InstallHyprland:
         self.install_hyprland()
         self.install_fonts()
         self.install_terminal()
+        self.install_nvim()
 
         self.install_chaotic_aur()
 
