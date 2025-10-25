@@ -195,7 +195,7 @@ class InstallHyprland:
                 os.makedirs(config_dir, exist_ok=True)
 
             # paste config
-            exclude = []
+            exclude = ['zshrc']
 
             source_config = os.path.join(base_dir, "config")
             shutil.copytree(
@@ -329,6 +329,7 @@ class InstallHyprland:
         print("Hyperland: ", end="", flush=True)
         packages = [
             "hyprland",
+            "waybar"
         ]
         self._install_pkg(packages)
 

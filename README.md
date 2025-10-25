@@ -3,8 +3,9 @@
 <br>
 
 - OS: [**Arch**](https://www.google.com/search?q=Arch)
-- WM: [**HYPRLAND**](https://www.google.com/search?q=hyprland)
+- WM: [**Hyprland**](https://www.google.com/search?q=hyprland)
 - Terminal: [**Alacritty**](https://www.google.com/search?q=alacritty)
+- Bar: [**Waybar**](https://www.google.com/search?q=waybar)
  <!-- - Bar: [**Polybar**](https://www.google.com/search?q=Polybar)
  - Compositor: [**Picom**](https://www.google.com/search?q=Picom) -->
  <!-- - App Launcher: [**Rofi**](https://www.google.com/search?q=Rofi)
