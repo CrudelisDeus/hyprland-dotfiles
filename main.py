@@ -28,6 +28,17 @@ class InstallHyprland:
                 out = "Failed"
                 self.log_message(out, (result.stderr).strip(), error=True)
 
+    # std program
+    def install_std_pkg(self) -> None:
+        """Installs standard packages"""
+        print("Std pkg: ", end="", flush=True)
+        packages = [
+            "git",
+            "firefox",
+            "openssh",
+        ]
+        self._install_pkg(packages)
+
     # install nvim
     def install_nvim(self) -> None:
         """Installs Neovim"""
@@ -360,6 +371,7 @@ class InstallHyprland:
         self.update()
         self.no_sudo_password()
         self.install_hyprland()
+        self.install_std_pkg()
         self.install_fonts()
         self.install_terminal()
         self.install_nvim()
