@@ -11,7 +11,9 @@
     "all-outputs": true
   },
 
-  "clock": {
-    "format": "{:$D %b $Y %I:%M %p}"
-  }
+"clock": {
+    "format": "{:%d %b %y | %I:%M %p}",
+    "tooltip-format": "{:%A, %B %d, %Y — %I:%M:%S %p}"
+}
+
 }
