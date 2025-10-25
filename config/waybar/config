@@ -2,8 +2,8 @@
   "layer": "top",
   "position": "top",
   "modules-left": ["hyprland/workspaces"],
-  "modules-center": ["clock"],
-  "modules-right": [],
+  "modules-center": [],
+  "modules-right": ["clock"],
 
   "hyprland/workspaces": {
     "format": "{name}",
@@ -12,7 +12,6 @@
   },
 
   "clock": {
-    "format": "{:%I:%M %p  $d %b $y}",
-    "tooltip-format": "{:%A, %B %d, %Y  —  %I:%M:%S %p}"
+    "format": "{:$D %b $Y %I:%M %p}"
   }
 }

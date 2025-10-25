@@ -1,7 +1,7 @@
 * { font-family: "JetBrains Mono", "Noto Sans", sans-serif; font-size: 12px; }
 
 window#waybar {
-  background: rgba(15, 15, 20, 0.35); /* прозрачность */
+  background: rgba(15, 15, 20, 0.35);
   border-radius: 12px;
   padding: 4px 8px;
   margin: 6px 10px 0 10px;
