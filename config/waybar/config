@@ -3,7 +3,7 @@
   "position": "top",
   "modules-left": ["custom/launcher", "cpu", "memory", "disk#root"],
   "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["clock"],
+  "modules-right": ["network", "clock"],
 
   "hyprland/workspaces": {
     "format": "{icon}",
@@ -42,9 +42,18 @@
     "format": " {used}"
   },
 
-"clock": {
+  "network": {
+    "interval": 2,
+    "format-wifi": "  {ipaddr}",
+    "format-ethernet": "  {ipaddr}",
+    "format-disconnected": "󰖪  No network",
+    "tooltip-format": "{ifname}\n↑ {bandwidthUpBytes}  ↓ {bandwidthDownBytes}",
+    "on-click": "nm-connection-editor"
+  },
+
+  "clock": {
     "format": "{:%d %b %y  %I:%M %p}",
     "tooltip-format": "{:%A, %B %d, %Y — %I:%M:%S %p}"
-}
+  }
 
 }

@@ -28,6 +28,36 @@ class InstallHyprland:
                 out = "Failed"
                 self.log_message(out, (result.stderr).strip(), error=True)
 
+    def _enable_and_start_service(self, service: str) -> None:
+        """Enable and start systemd service"""
+        print(f"{service}: ", end="", flush=True)
+        import subprocess
+        try:
+            result = subprocess.run(
+                ["sudo", "systemctl", "enable", "--now", service],
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                text=True, check=False
+            )
+        except Exception as e:
+            self.log_message("Exception", str(e).strip())
+        else:
+            if result.returncode == 0:
+                self.log_message("Success", result.stdout.strip())
+            else:
+                self.log_message("Failed", result.stderr.strip(), error=True)
+
+    # network
+    def config_network(self) -> None:
+        """Installs standard packages"""
+        print("Network pkg: ", end="", flush=True)
+        packages = [
+            "networkmanager",
+            "nm-connection-editor",
+            "network-manager-applet",
+        ]
+        self._install_pkg(packages)
+        self._enable_and_start_service("NetworkManager")
+
     # std program
     def install_std_pkg(self) -> None:
         """Installs standard packages"""
@@ -375,6 +405,7 @@ class InstallHyprland:
         self.install_fonts()
         self.install_terminal()
         self.install_nvim()
+        self.config_network()
 
         self.install_chaotic_aur()
 
