@@ -66,6 +66,9 @@ class InstallHyprland:
             "git",
             "firefox",
             "openssh",
+            "git-crypt",
+            "visual-studio-code-bin",
+            "rofi"
         ]
         self._install_pkg(packages)
 
