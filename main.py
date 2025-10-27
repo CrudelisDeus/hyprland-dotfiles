@@ -46,6 +46,60 @@ class InstallHyprland:
             else:
                 self.log_message("Failed", result.stderr.strip(), error=True)
 
+    # yay
+    def install_yay(self) -> None:
+        """Installs yay AUR helper"""
+        print("Install yay: ", end="", flush=True)
+        packages = [
+            "base-devel",
+            "yay"
+        ]
+        self._install_pkg(packages)
+        print("Config yay: ", end="", flush=True)
+        import subprocess
+        try:
+            result = subprocess.run(
+                ["yay", "-Syu", "--noconfirm"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False
+            )
+        except Exception as e:
+            out = "Exception"
+            self.log_message(out, (e).strip())
+        else:
+            if result.returncode == 0:
+                out = "Success"
+                self.log_message(out, (result.stdout).strip())
+            else:
+                out = "Failed"
+                self.log_message(out, (result.stderr).strip(), error=True)
+
+    # yay: install cursor macOS
+    def install_cursor_macos(self) -> None:
+        """Installs macOS cursor theme using yay"""
+        print("Cursor macOS: ", end="", flush=True)
+        import subprocess
+        try:
+            result = subprocess.run(
+                ["yay", "-S", "--noconfirm", "apple_cursor"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False
+            )
+        except Exception as e:
+            out = "Exception"
+            self.log_message(out, (e).strip())
+        else:
+            if result.returncode == 0:
+                out = "Success"
+                self.log_message(out, (result.stdout).strip())
+            else:
+                out = "Failed"
+                self.log_message(out, (result.stderr).strip(), error=True)
+
     # network
     def config_network(self) -> None:
         """Installs standard packages"""
@@ -409,6 +463,8 @@ class InstallHyprland:
         self.install_terminal()
         self.install_nvim()
         self.config_network()
+        self.install_yay()
+        self.install_cursor_macos()
 
         self.install_chaotic_aur()
 
