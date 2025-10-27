@@ -3,7 +3,7 @@
   "position": "top",
   "modules-left": ["custom/launcher", "cpu", "memory", "disk#root"],
   "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["network", "clock"],
+  "modules-right": ["network", "hyprland/language", "clock"],
 
   "hyprland/workspaces": {
     "format": "{icon}",
@@ -49,6 +49,11 @@
     "format-disconnected": "󰖪  No network",
     "tooltip-format": "{ifname}\n↑ {bandwidthUpBytes}  ↓ {bandwidthDownBytes}",
     "on-click": "nm-connection-editor"
+  },
+
+  "hyprland/language": {
+    "format": "{short}",                 
+    "interval": 1
   },
 
   "clock": {
