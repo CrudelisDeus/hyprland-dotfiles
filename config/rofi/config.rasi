@@ -1,0 +1,65 @@
+// Конфигурация: включаем иконки у приложений (шрифт не задаём, используется по умолчанию JetBrainsMono)
+configuration {
+    show-icons: true;
+}
+
+* {
+    background:             rgba(0, 0, 0, 0.1);
+    foreground:             #D8DEE9;
+    selected-bg:            rgba(136, 192, 208, 0.6);
+    selected-fg:            #ECEFF4;
+}
+
+window {
+    background-color:       @background;
+    border:                 0px;
+    border-radius:          10px;
+    padding:                10px;
+    transparency:           "real";
+    anchor:                 center;
+    location:               center;
+    width:                  40ch;
+}
+
+listview {
+    scrollbar:              false;
+    lines:                  8;
+    columns:                1;
+    spacing:                5px;
+    padding:                0px;
+}
+
+element {
+    padding:                5px 10px;
+    border-radius:          5px;
+}
+
+element-text {
+    background-color:       inherit;
+    text-color:             @foreground;
+}
+
+element.normal.normal,
+element.normal.urgent,
+element.normal.active,
+element.alternate.normal,
+element.alternate.urgent,
+element.alternate.active {
+    background-color:       transparent;
+    text-color:             @foreground;
+}
+
+element.selected.normal,
+element.selected.urgent,
+element.selected.active,
+element.selected.alternate.normal,
+element.selected.alternate.urgent,
+element.selected.alternate.active {
+    background-color:       @selected-bg;
+    text-color:             @selected-fg;
+}
+
+prompt, entry {
+    background-color:       transparent;
+    text-color:             @foreground;
+}
