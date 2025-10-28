@@ -46,6 +46,57 @@ class InstallHyprland:
             else:
                 self.log_message("Failed", result.stderr.strip(), error=True)
 
+    # set default font
+    def set_default_font(self):
+        """Set JetBrainsMono Nerd Font as default system font"""
+        print("Default font: ", end="", flush=True)
+        import textwrap
+
+        xml = textwrap.dedent("""\
+        <?xml version='1.0'?>
+        <!DOCTYPE fontconfig SYSTEM 'fonts.dtd'>
+        <fontconfig>
+        <alias>
+            <family>monospace</family>
+            <prefer><family>JetBrainsMono Nerd Font</family></prefer>
+        </alias>
+        <alias>
+            <family>sans-serif</family>
+            <prefer><family>JetBrainsMono Nerd Font</family></prefer>
+        </alias>
+        <alias>
+            <family>serif</family>
+            <prefer><family>JetBrainsMono Nerd Font</family></prefer>
+        </alias>
+        </fontconfig>
+        """)
+
+        import subprocess
+
+        try:
+            subprocess.run(
+                ["sudo", "tee", "/etc/fonts/local.conf"],
+                input=xml, text=True, check=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+            result = subprocess.run(
+                ["sudo", "fc-cache", "-f"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=False
+            )
+        except Exception as e:
+            out = "Exception"
+            self.log_message(out, (e).strip())
+        else:
+            if result.returncode == 0:
+                out = "Success"
+                self.log_message(out, (result.stdout).strip())
+            else:
+                out = "Failed"
+                self.log_message(out, (result.stderr).strip(), error=True)
+
     # yay
     def install_yay(self) -> None:
         """Installs yay AUR helper"""
@@ -460,6 +511,7 @@ class InstallHyprland:
         self.install_hyprland()
         self.install_std_pkg()
         self.install_fonts()
+        self.set_default_font()
         self.install_terminal()
         self.install_nvim()
         self.config_network()
